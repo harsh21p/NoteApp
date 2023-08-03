@@ -1,6 +1,5 @@
-import {Image, Pressable, SafeAreaView, View} from 'react-native';
+import {Image, Pressable, SafeAreaView, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-// import styles from './styles';
 import {NoteService} from '../../database/local';
 import Editor from '../../component/Editor';
 import routes from '..';
@@ -10,11 +9,10 @@ import styles from './styles';
 const AddNote = ({route, navigation}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [deleted, setDeleted] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     if (route.params?.noteId) {
-      // Edit existing note, fetch its details
       fetchNoteDetails(route.params.noteId);
     }
   }, []);
@@ -23,23 +21,19 @@ const AddNote = ({route, navigation}) => {
     const note = await NoteService.getNoteById(noteId);
     setTitle(note.title);
     setDescription(note.description);
-    setDeleted(note.deleted);
+    setUpdated(note.updated);
   };
 
   const handleSaveNote = async () => {
     if (route.params?.noteId) {
-      // Update existing note
       await NoteService.updateNote(
         route.params.noteId,
         title,
         description,
-        deleted,
+        updated,
       );
     } else {
-      // Add new note
-     
-
-      await NoteService.addNote(title, description, deleted);
+      await NoteService.addNote(title, description, updated);
     }
     navigation.goBack();
   };
@@ -47,15 +41,21 @@ const AddNote = ({route, navigation}) => {
   return (
     <SafeAreaView>
       <View>
-        <Pressable
-          style={styles.back}
-          onPress={() => navigation.navigate(routes.Home)}>
-          <Image
-            style={styles.backImg}
-            resizeMode="contain"
-            source={assets.images.back}
-          />
-        </Pressable>
+        <View style={styles.row}>
+          <Pressable
+            style={styles.back}
+            onPress={() => navigation.navigate(routes.Home)}>
+            <Image
+              style={styles.backImg}
+              resizeMode="contain"
+              source={assets.images.back}
+            />
+          </Pressable>
+          <Text style={styles.header}>
+            {route.params?.noteId ? 'Update' : 'Add'} Note
+          </Text>
+        </View>
+
         <Editor
           title={title}
           setTitle={setTitle}

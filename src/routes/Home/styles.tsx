@@ -5,8 +5,15 @@ const styles = StyleSheet.create({
   sectionContainer: {
     justifyContent: 'center',
     alignContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
+    padding: 10,
+  },
+  notesText: {
+    fontWeight: '600',
+    fontSize: 20,
+    paddingBottom: 20,
+  },
+  notFound: {
+    paddingVertical: 30,
   },
   add: {width: 20, height: 20, alignSelf: 'center'},
   sectionTitle: {
@@ -34,6 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+    marginTop: 30,
   },
 });
 

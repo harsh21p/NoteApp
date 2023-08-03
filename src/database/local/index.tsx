@@ -1,5 +1,5 @@
 import Realm from 'realm';
-import {v4 as uuidv4} from 'uuid';
+import uuidRandom from 'uuid-random';
 
 const NoteSchema = {
   name: 'Note',
@@ -9,30 +9,31 @@ const NoteSchema = {
     title: 'string',
     description: 'string',
     dateCreated: 'string',
-    deleted: 'boolean',
+    updated: 'bool',
   },
 };
 
 export const NoteService = {
-  addNote: async (title: any, description: any, deleted: any) => {
-    Realm.open({schema: [NoteSchema]})
-      .then(() => {
-        console.log('Hi');
-      })
-      .catch(e => console.log(e));
+  addNote: async (title: any, description: any, updated: any) => {
+    const realm = await Realm.open({schema: [NoteSchema]});
 
     const dateCreated = currentDate();
     const newNote = {
-      id: uuidv4(),
+      id: uuidRandom(),
       title,
       description,
       dateCreated,
-      deleted: deleted,
+      updated: updated,
     };
-    console.log('Date:', dateCreated);
-    realm.write(() => {
-      realm.create('Note', newNote);
-    });
+
+    try {
+      realm.write(() => {
+        realm.create('Note', newNote);
+      });
+      console.log('Done');
+    } catch (e: any) {
+      console.log(e);
+    }
 
     realm.close();
   },
@@ -41,7 +42,7 @@ export const NoteService = {
     noteId: any,
     title: any,
     description: any,
-    deleteFlag: any,
+    updateFlag: any,
   ) => {
     const realm = await Realm.open({schema: [NoteSchema]});
     const existingNote = realm.objectForPrimaryKey('Note', noteId);
@@ -49,7 +50,7 @@ export const NoteService = {
     realm.write(() => {
       existingNote.title = title;
       existingNote.description = description;
-      existingNote.delete = deleteFlag;
+      existingNote.updated = updateFlag;
     });
 
     realm.close();
@@ -70,26 +71,22 @@ export const NoteService = {
     const realm = await Realm.open({schema: [NoteSchema]});
     const notes = realm.objects('Note');
     const notesArray = Array.from(notes);
-    realm.close();
     return notesArray;
   },
 
   getNoteById: async noteId => {
     const realm = await Realm.open({schema: [NoteSchema]});
     const note = realm.objectForPrimaryKey('Note', noteId);
-    realm.close();
     return note;
   },
 };
 function currentDate(): String {
   const today = new Date();
 
-  // Extract date, month, and year from the Date object
   const date = today.getDate();
-  const month = today.getMonth() + 1; // Note: Months are zero-indexed, so we add 1
+  const month = today.getMonth() + 1;
   const year = today.getFullYear();
 
-  // Format the date as a string (e.g., "01/08/2023")
   const formattedDate = `${date < 10 ? '0' : ''}${date}/${
     month < 10 ? '0' : ''
   }${month}/${year}`;

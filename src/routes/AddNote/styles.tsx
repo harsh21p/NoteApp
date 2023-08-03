@@ -2,6 +2,14 @@ import {StyleSheet} from 'react-native';
 import colors from '../../style/colors';
 
 const styles = StyleSheet.create({
+  header: {
+    alignSelf: 'center',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  row: {
+    flexDirection: 'row',
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,

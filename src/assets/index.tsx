@@ -4,6 +4,7 @@ const icons = {
 const images = {
   add: require('./images/add.png'),
   back: require('./images/back.png'),
+  delete: require('./images/delete.png'),
 };
 
 export default {icons, images};

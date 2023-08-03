@@ -1,9 +1,24 @@
 import {StyleSheet} from 'react-native';
+import colors from '../../style/colors';
 
 const styles = StyleSheet.create({
+  delete: {
+    height: 20,
+    width: 30,
+  },
+  row: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
   sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+    width: '100%',
+    alignItems: 'flex-start',
+    marginVertical: 5,
+    padding: 10,
+    borderColor: colors.Text.gray,
+    borderWidth: 1,
   },
   sectionTitle: {
     fontSize: 24,
@@ -18,8 +33,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   text: {
-    alignSelf: 'center',
-    height: '100%',
+    fontWeight: '500',
+    fontSize: 15,
+    alignSelf: 'flex-start',
+  },
+  title: {
+    fontWeight: '700',
+    fontSize: 20,
+    alignSelf: 'flex-start',
+    paddingBottom: 3,
   },
 });
 
