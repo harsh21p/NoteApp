@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    paddingVertical: 20,
   },
   sectionContainer: {
     marginTop: 32,
