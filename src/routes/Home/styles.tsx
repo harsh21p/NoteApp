@@ -2,19 +2,36 @@ import {StyleSheet} from 'react-native';
 import colors from '../../style/colors';
 
 const styles = StyleSheet.create({
+  holder: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flatList: {
+    paddingHorizontal: 10,
+  },
   activity: {
     alignSelf: 'center',
-    paddingVertical: 30,
   },
   sectionContainer: {
     justifyContent: 'flex-end',
-
-    padding: 10,
+  },
+  header: {
+    width: '100%',
+    paddingHorizontal: 10,
+    backgroundColor: colors.Generic.white,
+    shadowColor: colors.Text.gray,
+    shadowOpacity: 0.8,
+    shadowOffset: {height: 3, width: 3},
+    shadowRadius: 5,
+    elevation: 3,
   },
   notesText: {
-    fontWeight: '600',
-    fontSize: 20,
+    fontWeight: '700',
+    fontSize: 25,
     paddingBottom: 20,
+    paddingTop: 10,
   },
   notFound: {
     alignSelf: 'center',

@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginVertical: 5,
     padding: 10,
+
     borderColor: colors.Text.gray,
     borderWidth: 1,
   },

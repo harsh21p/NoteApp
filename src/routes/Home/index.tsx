@@ -43,18 +43,20 @@ const Home = ({navigation}) => {
         isDownloading ||
         notesLocal === undefined ||
         notesLocal?.length === 0 ? (
-          notesLocal?.length === 0 && (isUploading || isDownloading) ? (
-            <ActivityIndicator style={styles.activity} size={'large'} />
-          ) : (
-            <Text style={styles.notFound}>Not Data</Text>
-          )
+          <View style={styles.holder}>
+            notesLocal?.length === 0 && (isUploading || isDownloading) ? (
+            <ActivityIndicator style={styles.activity} size={'large'} />) : (
+            <Text style={styles.notFound}>Not Found</Text>)
+          </View>
         ) : (
           <View style={styles.myFirstView}>
-            <Text style={styles.notesText}>Notes</Text>
-
+            <View style={styles.header}>
+              <Text style={styles.notesText}>Notes</Text>
+            </View>
             <FlatList
               data={notesLocal?.filter(e => !e?.deteted)}
               keyExtractor={item => item?.id}
+              style={styles.flatList}
               renderItem={({item}) => (
                 <Note
                   getBack={() => {
