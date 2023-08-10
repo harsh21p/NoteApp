@@ -39,15 +39,17 @@ const Home = ({navigation}) => {
   return (
     <SafeAreaView>
       <View style={styles.sectionContainer}>
-        {isUploading || notesLocal === undefined || notesLocal?.length === 0 ? (
-          (notesLocal === undefined || notesLocal?.length === 0) &&
-          (isUploading || isDownloading) ? (
+        {isUploading ||
+        isDownloading ||
+        notesLocal === undefined ||
+        notesLocal?.length === 0 ? (
+          notesLocal?.length === 0 && (isUploading || isDownloading) ? (
             <ActivityIndicator style={styles.activity} size={'large'} />
           ) : (
-            <Text style={styles.notFound}>Not Found</Text>
+            <Text style={styles.notFound}>Not Data</Text>
           )
         ) : (
-          <>
+          <View style={styles.myFirstView}>
             <Text style={styles.notesText}>Notes</Text>
 
             <FlatList
@@ -63,15 +65,17 @@ const Home = ({navigation}) => {
                 />
               )}
             />
-          </>
+          </View>
         )}
-        <Pressable
-          style={styles.floating}
-          onPress={() => {
-            navigation.navigate(routes.AddNote);
-          }}>
-          <Image style={styles.add} source={assets.images.add} />
-        </Pressable>
+        <View style={styles.mySecondView}>
+          <Pressable
+            style={styles.floating}
+            onPress={() => {
+              navigation.navigate(routes.AddNote);
+            }}>
+            <Image style={styles.add} source={assets.images.add} />
+          </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );

@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   sectionContainer: {
-    justifyContent: 'center',
-    alignContent: 'center',
+    justifyContent: 'flex-end',
+
     padding: 10,
   },
   notesText: {
@@ -37,16 +37,31 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: '100%',
   },
+  myFirstView: {
+    height: '100%',
+  },
+  mySecondView: {
+    width: '100%',
+    height: '25%',
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    paddingHorizontal: '10%',
+    position: 'absolute',
+  },
   floating: {
     width: 60,
     height: 60,
     borderRadius: 30,
     backgroundColor: colors.Button.primary,
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
-    marginTop: 30,
+    shadowColor: colors.Text.gray,
+    shadowOpacity: 0.8,
+    shadowOffset: {height: 5, width: 5},
+    shadowRadius: 10,
+    elevation: 5,
   },
 });
 
