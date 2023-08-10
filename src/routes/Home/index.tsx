@@ -44,9 +44,11 @@ const Home = ({navigation}) => {
         notesLocal === undefined ||
         notesLocal?.length === 0 ? (
           <View style={styles.holder}>
-            notesLocal?.length === 0 && (isUploading || isDownloading) ? (
-            <ActivityIndicator style={styles.activity} size={'large'} />) : (
-            <Text style={styles.notFound}>Not Found</Text>)
+            {notesLocal?.length === 0 && (isUploading || isDownloading) ? (
+              <ActivityIndicator style={styles.activity} size={'large'} />
+            ) : (
+              <Text style={styles.notFound}>Not Found</Text>
+            )}
           </View>
         ) : (
           <View style={styles.myFirstView}>
