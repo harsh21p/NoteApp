@@ -7,14 +7,19 @@
 
 // Import the functions you need from the SDKs you need
 
-import React, {useEffect} from 'react';
 import AppNavigator from './navigation';
 import app from './database/cloud/config';
+import AppNetInfo from './redux/hooks';
+import {NoteProvider} from './redux/context/data';
 
 function App(): JSX.Element {
-  useEffect(() => {}, []);
-
-  return <AppNavigator />;
+  return (
+    <NoteProvider>
+      <AppNetInfo>
+        <AppNavigator />
+      </AppNetInfo>
+    </NoteProvider>
+  );
 }
 
 export default App;

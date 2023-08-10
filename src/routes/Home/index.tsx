@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import styles from './styles';
 import {
   View,
@@ -7,55 +7,57 @@ import {
   Text,
   SafeAreaView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import {NoteService} from '../../database/local';
 import routes from '..';
 import Note from '../../component/Note';
 import assets from '../../assets';
-import {useFocusEffect} from '@react-navigation/native';
-import { CloudService } from '../../database/cloud';
-
+import {useNoteContext} from '../../redux/context/data';
 const Home = ({navigation}) => {
-  const [notes, setNotes] = useState([]);
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchNotes();
-    }, []),
-  );
+  const {notesLocal, setUpdate, update, isDownloading, isUploading} =
+    useNoteContext();
 
-  const fetchNotes = async () => {
-    const fetchedNotes = await NoteService.getAllNotes();
-    const getNotesFromFirebase = await CloudService.getAllNotes();
-    console.log('Feached:', getNotesFromFirebase);
-    setNotes(fetchedNotes);
-  };
-
-  useEffect(() => {
-    console.log(notes);
-  }, [notes]);
-
-  const handleDeleteNote = async noteId => {
-    await NoteService.deleteNote(noteId);
-    fetchNotes();
+  const handleDeleteNote = async (item: {
+    id: any;
+    cloudId: any;
+    title: any;
+    description: any;
+    updated: any;
+  }) => {
+    await NoteService.updateNote(
+      item?.id,
+      item?.cloudId,
+      item?.title,
+      item?.description,
+      item?.updated,
+      true,
+    );
+    setUpdate(!update);
   };
 
   return (
     <SafeAreaView>
       <View style={styles.sectionContainer}>
-        {notes === undefined || notes?.length === 0 ? (
-          <Text style={styles.notFound}>Not Found</Text>
+        {isUploading || notesLocal === undefined || notesLocal?.length === 0 ? (
+          (notesLocal === undefined || notesLocal?.length === 0) &&
+          (isUploading || isDownloading) ? (
+            <ActivityIndicator style={styles.activity} size={'large'} />
+          ) : (
+            <Text style={styles.notFound}>Not Found</Text>
+          )
         ) : (
           <>
             <Text style={styles.notesText}>Notes</Text>
 
             <FlatList
-              data={notes}
-              keyExtractor={item => item.id}
+              data={notesLocal?.filter(e => !e?.deteted)}
+              keyExtractor={item => item?.id}
               renderItem={({item}) => (
                 <Note
-                  getBack={() =>
-                    navigation.navigate(routes.AddNote, {noteId: item.id})
-                  }
+                  getBack={() => {
+                    navigation.navigate(routes.AddNote, {id: item?.id});
+                  }}
                   item={item}
                   callback={handleDeleteNote}
                 />
@@ -65,7 +67,9 @@ const Home = ({navigation}) => {
         )}
         <Pressable
           style={styles.floating}
-          onPress={() => navigation.navigate(routes.AddNote)}>
+          onPress={() => {
+            navigation.navigate(routes.AddNote);
+          }}>
           <Image style={styles.add} source={assets.images.add} />
         </Pressable>
       </View>
