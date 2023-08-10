@@ -2,39 +2,48 @@ import {Image, Pressable, SafeAreaView, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {NoteService} from '../../database/local';
 import Editor from '../../component/Editor';
-import routes from '..';
 import assets from '../../assets';
 import styles from './styles';
+import {useNoteContext} from '../../redux/context/data';
 
 const AddNote = ({route, navigation}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [updated, setUpdated] = useState(false);
+  const [cloudId, setCloudId] = useState('');
+  const [deleted, setDeleted] = useState(false);
 
+  const [updated, setUpdated] = useState(true);
+
+  const {setUpdate, update} = useNoteContext();
   useEffect(() => {
-    if (route.params?.noteId) {
-      fetchNoteDetails(route.params.noteId);
+    if (route?.params?.id) {
+      fetchNoteDetails(route?.params?.id);
     }
-  }, []);
+  }, [route?.params?.id]);
 
-  const fetchNoteDetails = async noteId => {
-    const note = await NoteService.getNoteById(noteId);
+  const fetchNoteDetails = async id => {
+    const note = await NoteService.getNoteById(id);
     setTitle(note.title);
     setDescription(note.description);
-    setUpdated(note.updated);
+    setUpdated(true);
+    setCloudId(note.cloudId);
+    setDeleted(note.deleted);
   };
 
   const handleSaveNote = async () => {
-    if (route.params?.noteId) {
+    if (route?.params?.id) {
       await NoteService.updateNote(
-        route.params.noteId,
+        route.params.id,
+        cloudId,
         title,
         description,
         updated,
+        deleted,
       );
     } else {
-      await NoteService.addNote(title, description, updated);
+      await NoteService.addNote(title, cloudId, description, updated, deleted);
     }
+    setUpdate(!update);
     navigation.goBack();
   };
 
@@ -44,7 +53,9 @@ const AddNote = ({route, navigation}) => {
         <View style={styles.row}>
           <Pressable
             style={styles.back}
-            onPress={() => navigation.navigate(routes.Home)}>
+            onPress={() => {
+              navigation.goBack();
+            }}>
             <Image
               style={styles.backImg}
               resizeMode="contain"
@@ -52,7 +63,7 @@ const AddNote = ({route, navigation}) => {
             />
           </Pressable>
           <Text style={styles.header}>
-            {route.params?.noteId ? 'Update' : 'Add'} Note
+            {route.params?.id ? 'Update' : 'Add'} Note
           </Text>
         </View>
 

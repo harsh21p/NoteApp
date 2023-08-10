@@ -6,77 +6,103 @@ const NoteSchema = {
   primaryKey: 'id',
   properties: {
     id: 'string',
+    cloudId: 'string',
     title: 'string',
     description: 'string',
     dateCreated: 'string',
     updated: 'bool',
+    deleted: 'bool',
   },
 };
 
 export const NoteService = {
-  addNote: async (title: any, description: any, updated: any) => {
+  addNote: async (
+    title: any,
+    cloudId: any,
+    description: any,
+    updated: any,
+    deleted: any,
+  ) => {
     const realm = await Realm.open({schema: [NoteSchema]});
 
     const dateCreated = currentDate();
     const newNote = {
       id: uuidRandom(),
+      cloudId: cloudId,
       title,
       description,
       dateCreated,
       updated: updated,
+      deleted: deleted,
     };
-
     try {
-      realm.write(() => {
+      await realm.write(() => {
         realm.create('Note', newNote);
       });
-      console.log('Done');
+      console.log('Added to local');
     } catch (e: any) {
       console.log(e);
     }
-
-    realm.close();
+    await realm.close();
   },
 
   updateNote: async (
-    noteId: any,
+    id: any,
+    cloudId: any,
     title: any,
     description: any,
     updateFlag: any,
+    deleted: any,
   ) => {
     const realm = await Realm.open({schema: [NoteSchema]});
-    const existingNote = realm.objectForPrimaryKey('Note', noteId);
+    const existingNote = realm.objectForPrimaryKey('Note', id);
 
     realm.write(() => {
+      existingNote.cloudId = cloudId;
       existingNote.title = title;
       existingNote.description = description;
       existingNote.updated = updateFlag;
+      existingNote.deleted = deleted;
     });
+
+    console.log('Updated to local');
 
     realm.close();
   },
 
-  deleteNote: async noteId => {
+  deleteNote: async id => {
     const realm = await Realm.open({schema: [NoteSchema]});
-    const existingNote = realm.objectForPrimaryKey('Note', noteId);
-
-    realm.write(() => {
-      realm.delete(existingNote);
+    const existingNote = realm.objectForPrimaryKey('Note', id);
+    await realm.write(async () => {
+      await realm.delete(existingNote);
     });
-
+    console.log('Local data deleted');
     realm.close();
+    return true;
   },
 
   getAllNotes: async () => {
     const realm = await Realm.open({schema: [NoteSchema]});
     const notes = realm.objects('Note');
-    const notesArray = Array.from(notes);
+    const notesArray: any[] = [];
+    notes?.map(e => {
+      notesArray.push({
+        id: e?.id,
+        cloudId: e?.cloudId,
+        title: e?.title,
+        description: e?.description,
+        dateCreated: e?.dateCreated,
+        updated: e?.updated,
+        deleted: e?.deleted,
+      });
+    });
+    console.log('Local data feached');
     return notesArray;
   },
 
-  getNoteById: async noteId => {
+  getNoteById: async id => {
     const realm = await Realm.open({schema: [NoteSchema]});
-    const note = realm.objectForPrimaryKey('Note', noteId);
+    const note = realm.objectForPrimaryKey('Note', id);
     return note;
   },
 };

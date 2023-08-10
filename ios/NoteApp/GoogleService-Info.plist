@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>865705260205-u8biv1rl4o4m624h8m4r3ls9k58ug8go.apps.googleusercontent.com</string>
+	<string>485033373899-2gfsofp4ilrble1q81nk72j5tcjrgajh.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.865705260205-u8biv1rl4o4m624h8m4r3ls9k58ug8go</string>
+	<string>com.googleusercontent.apps.485033373899-2gfsofp4ilrble1q81nk72j5tcjrgajh</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDGIPVHXfj4oDTqe0FNYxir-bQiuIXlcqw</string>
+	<string>AIzaSyBLnelDOSAShaGxkC8I4MvAjyaumvKWcUo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>865705260205</string>
+	<string>485033373899</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.noteapp</string>
 	<key>PROJECT_ID</key>
-	<string>note-app-react-native-b8ac8</string>
+	<string>noteapp-a7618</string>
 	<key>STORAGE_BUCKET</key>
-	<string>note-app-react-native-b8ac8.appspot.com</string>
+	<string>noteapp-a7618.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:865705260205:ios:6105f5f709037b60e50224</string>
+	<string>1:485033373899:ios:0f8b05973fb5433a342b4e</string>
 </dict>
 </plist>

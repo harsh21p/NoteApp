@@ -16,8 +16,10 @@ const AppNavigator = () => {
         screenOptions={{headerShown: false, gestureEnabled: false}}>
         <RootStack.Group screenOptions={{headerShown: false}}>
           <RootStack.Screen name={routes.Home} component={Home} />
-          <RootStack.Screen name={routes.AddNote} component={AddNote} />
           <RootStack.Screen name={routes.Splash} component={Splash} />
+        </RootStack.Group>
+        <RootStack.Group screenOptions={{headerShown: false}}>
+          <RootStack.Screen name={routes.AddNote} component={AddNote} />
         </RootStack.Group>
       </RootStack.Navigator>
     </NavigationContainer>

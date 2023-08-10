@@ -18,7 +18,7 @@ const Note = ({item, callback, getBack}: NoteProp) => {
         <Text style={styles.title}>{item.title}</Text>
         <Pressable
           onPress={() => {
-            callback(item.id);
+            callback(item);
           }}>
           <Image
             style={styles.delete}

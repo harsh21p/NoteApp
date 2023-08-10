@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import colors from '../../style/colors';
 
 const styles = StyleSheet.create({
+  activity: {
+    alignSelf: 'center',
+    paddingVertical: 30,
+  },
   sectionContainer: {
     justifyContent: 'center',
     alignContent: 'center',
@@ -13,6 +17,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   notFound: {
+    alignSelf: 'center',
     paddingVertical: 30,
   },
   add: {width: 20, height: 20, alignSelf: 'center'},
